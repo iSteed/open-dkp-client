@@ -1,39 +1,17 @@
-version: 0.2
-
-#env:
-  #variables:
-     # key: "value"
-     # key: "value"
-  #parameter-store:
-     # key: "value"
-     # key: "value"
-
-phases:
-  #install:
-    #commands:
-      # - command
-      # - command
-  pre_build:
-    commands:
-      - npm install
-      # - command
-  build:
-    commands:
-      - npm run build
-      # - command
-  post_build:
-    commands:
-      - aws s3 sync ./dist/ s3://opendkp-s3-bucket/
-      - aws s3 sync ./dist/ s3://opendkp.com/
-
-      # - command
-#artifacts:
-  #files:
-    #- dist/**/*
-    # - name: dist.zip
-    # - location
-  #discard-paths: yes
-  #base-directory: location
-#cache:
-  #paths:
-    # - paths
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - export NODE_OPTIONS=--openssl-legacy-provider
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: dist  # or 'build' depending on your Angular config
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
