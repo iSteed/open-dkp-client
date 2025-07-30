@@ -3,13 +3,16 @@ frontend:
   phases:
     preBuild:
       commands:
+        - nvm install 16
+        - nvm use 16
+        - node -v  # verify Node version
         - export NODE_OPTIONS=--openssl-legacy-provider
         - npm ci
     build:
       commands:
         - npm run build
   artifacts:
-    baseDirectory: dist  # or 'build' depending on your Angular config
+    baseDirectory: dist/open-dkp-client
     files:
       - '**/*'
   cache:
