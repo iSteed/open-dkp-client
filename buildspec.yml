@@ -3,10 +3,22 @@ frontend:
   phases:
     preBuild:
       commands:
+        - echo "Installing Node 16 via nvm..."
+        - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+        - export NVM_DIR=$HOME/.nvm
+        - source $NVM_DIR/nvm.sh
+        - nvm install 16
+        - nvm use 16
         - export NODE_OPTIONS=--openssl-legacy-provider
+        - node -v && npm -v
         - npm ci
     build:
       commands:
+        - echo "Sourcing nvm and building..."
+        - export NVM_DIR=$HOME/.nvm
+        - source $NVM_DIR/nvm.sh
+        - nvm use 16
+        - export NODE_OPTIONS=--openssl-legacy-provider
         - npm run build
   artifacts:
     baseDirectory: dist/open-dkp-client
